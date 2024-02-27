@@ -13,8 +13,8 @@ contract MyERC20 is AccessControl {
     bytes32 public constant Airdrop_ROLE = keccak256("Airdrop_ROLE");
 
     constructor() {
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        _setupRole(Airdrop_ROLE, msg.sender);
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(Airdrop_ROLE, msg.sender);
     }
 
     function batchMint(
@@ -26,7 +26,7 @@ contract MyERC20 is AccessControl {
         for (uint256 i = 0; i < toAccounts.length; i++) {
             uint256 amount = amounts[i];
             if (amount > 0) {
-                Token(tokenAddress).mint(toAccounts[i], amounts[i]);
+                IToken(tokenAddress).mint(toAccounts[i], amounts[i]);
             }
         }
     }
@@ -40,7 +40,7 @@ contract MyERC20 is AccessControl {
         for (uint256 i = 0; i < toAccounts.length; i++) {
             uint256 amount = amounts[i];
             if (amount > 0) {
-                Token(tokenAddress).transfer(toAccounts[i], amounts[i]);
+                IToken(tokenAddress).transfer(toAccounts[i], amounts[i]);
             }
         }
     }
@@ -54,7 +54,7 @@ contract MyERC20 is AccessControl {
         for (uint256 i = 0; i < fromAccounts.length; i++) {
             uint256 amount = amounts[i];
             if (amount > 0) {
-                Token(tokenAddress).burn(fromAccounts[i], amounts[i]);
+                IToken(tokenAddress).burn(fromAccounts[i], amounts[i]);
             }
         }
     }
